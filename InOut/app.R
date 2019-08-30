@@ -16,12 +16,12 @@ source("functions.R")
 
 # Read in the data so we have something initially
 # Since the functions can read / write the data we will have to update 'live_data' too
-live_data = read_rds("log.rds")
+live_data <- read_rds("log.rds")
 
 # Define UI for application
-ui <- fluidPage(# Application title
+ui <- fluidPage( # Application title
   titlePanel("H & SC Team Meetings"),
-  
+
   # Sidebar with links to pick high level function
   navlistPanel(
     # Panel for picking new 'team'
@@ -33,7 +33,7 @@ ui <- fluidPage(# Application title
       htmlOutput("next_chair"),
       htmlOutput("next_minuter")
     ),
-    
+
     # Panel for displaying the log and updating data
     tabPanel(
       "Input Meeting",
@@ -53,20 +53,21 @@ ui <- fluidPage(# Application title
       # A table to display the log
       dataTableOutput("log_table")
     )
-  ))
+  )
+)
 
 # Define server logic
 server <- function(input, output) {
-  ##Pick new team tab
-  
+  ## Pick new team tab
+
   # Wait for a button click
   observeEvent(input$choose, {
     # Get the new 'team'
     # This is a tibble with one row
-    team = pick_team()
+    team <- pick_team()
     # Fill in the text box with the selection for chair
     # Uses some HTML to display things nicely
-    output$next_chair = renderText(
+    output$next_chair <- renderText(
       paste0(
         "<br> Chair is: <b>",
         team$chair,
@@ -76,9 +77,9 @@ server <- function(input, output) {
         filter(live_data, name == team$chair)$last_chaired
       )
     )
-    
+
     # Same for minute taker
-    output$next_minuter = renderText(
+    output$next_minuter <- renderText(
       paste0(
         "<br><br>Minute taker is: <b>",
         team$minute_taker,
@@ -89,20 +90,22 @@ server <- function(input, output) {
       )
     )
   })
-  
+
   ## Input meeting tab
   # Display the log as a table which can be sorted
-  output$log_table = renderDataTable(live_data)
-  
+  output$log_table <- renderDataTable(live_data)
+
   # Wait for a button click
   observeEvent(input$input_data, {
     # Update live data with the add_meeting function
     # This function will also write the data back to disk
-    live_data = add_meeting(input$chair_name,
-                            input$minute_name,
-                            as.character(input$meeting_date))
+    live_data <- add_meeting(
+      input$chair_name,
+      input$minute_name,
+      as.character(input$meeting_date)
+    )
     # Redraw the table with the new data
-    output$log_table = renderDataTable(live_data)
+    output$log_table <- renderDataTable(live_data)
   })
 }
 

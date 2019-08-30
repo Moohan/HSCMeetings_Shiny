@@ -5,8 +5,8 @@ account: jamesmcmahon
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 907849
-bundleId: 2091216
+bundleId: 2370588
 url: https://jamesmcmahon.shinyapps.io/HSC_Meetings/
-when: 1558084956.10266
+when: 1567157042.66111
 asMultiple: FALSE
 asStatic: FALSE
